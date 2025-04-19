@@ -51,17 +51,17 @@ def step_when_wait_time_description(context, time_description):
         context.belly.esperar(total_time_in_hours)
         return
     # Caso: aleatorio entre X e Y horas
-    match_random = re.search(r'entre\s+(\d+(?:\.\d+)?)\s+y\s+(\d+(?:\.\d+)?)\s+(horas?|hours?)', time_description) \
-        or re.search(r'between\s+(\d+(?:\.\d+)?)\s+and\s+(\d+(?:\.\d+)?)\s+(horas?|hours?)', time_description)
+    match_random = re.search(r'entre +(\d+(?:\.\d+)?)+ y +(\d+(?:\.\d+)?)+horas', time_description) 
     if match_random:
         min_h = float(match_random.group(1))
         max_h = float(match_random.group(2))
         random.seed(42)  # Semilla fija para reproducibilidad
         total_time_in_hours = round(random.uniform(min_h, max_h), 2)
-
-        logging.info(f"[Tiempo aleatorio elegido] Esperando {total_time_in_hours} horas entre {min_h} y {max_h} horas.")
+        logging.info(f"Tiempo aleatorio generado: {total_time_in_hours} horas")
         context.belly.esperar(total_time_in_hours)
         return
+
+    
     
     # Actualizamos la expresion regular para incluir segundos
     pattern = re.compile(
